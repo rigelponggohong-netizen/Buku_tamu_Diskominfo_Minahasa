@@ -1,0 +1,506 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrator - Sistem Informasi</title>
+    <link rel="icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Left Side - Welcome Area */
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+        
+        .logo-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo-container .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo-container .logos img {
+            height: 100px;
+            width: auto;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .welcome-content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .welcome-content p {
+            font-size: 18px;
+            opacity: 0.95;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-content .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        /* Right Side - Login Form */
+        .login-section {
+            flex: 1;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-header h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 18px;
+            z-index: 1;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: 'Arial', sans-serif;
+            background: white;
+        }
+        
+        input[type="text"]:hover,
+        input[type="password"]:hover {
+            border-color: #b3b3b3;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+            color: white;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .back-link a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .back-link a:hover {
+            color: #004999;
+        }
+        
+        /* Toast Notification Styles */
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+            z-index: 10000;
+        }
+
+        .toast::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .toast.success::before {
+            background: #28a745;
+        }
+
+        .toast.error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast.error::before {
+            background: #dc3545;
+        }
+
+        .toast.info {
+            border-left: 4px solid #0066cc;
+        }
+
+        .toast.info::before {
+            background: #0066cc;
+        }
+
+        .toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: #28a745;
+        }
+
+        .toast.error .toast-icon {
+            color: #dc3545;
+        }
+
+        .toast.info .toast-icon {
+            color: #0066cc;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOutRight 0.3s ease-out forwards;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .welcome-section {
+                padding: 40px 30px;
+            }
+            
+            .welcome-content h1 {
+                font-size: 28px;
+            }
+            
+            .login-section {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Side - Welcome Area -->
+    <div class="welcome-section">
+        <div class="logo-container">
+            <div class="logos">
+                <img src="{% static 'absensi/images/logo_kominfo.png' %}" alt="Logo Kominfo">
+                <img src="{% static 'absensi/images/logo_minahasa.png' %}" alt="Logo Minahasa">
+            </div>
+        </div>
+        <div class="welcome-content">
+            <h1>Selamat Datang</h1>
+            <p>Sistem Informasi Buku Tamu<br>Diskominfo Minahasa</p>
+            <div class="subtitle">
+                <p>Silakan login untuk mengakses<br>Panel Administrator</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Side - Login Form -->
+    <div class="login-section">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Login Administrator</h2>
+                <p>Masuk dengan kredensial Anda</p>
+            </div>
+            
+            <!-- Toast Container -->
+            <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;"></div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="username" name="username" placeholder="Masukkan username" required autofocus>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔑</span>
+                        <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                    </div>
+                </div>
+                
+                <button type="submit">🔓 Login ke Admin Panel</button>
+            </form>
+            
+            <div class="back-link">
+                <a href="{% url 'index' %}">
+                    <span>←</span>
+                    <span>Kembali ke Halaman Utama</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Script -->
+    <script>
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️'
+            };
+
+            const titles = {
+                success: 'Berhasil',
+                error: 'Error',
+                info: 'Informasi'
+            };
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.success}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type] || titles.success}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="closeToast(this)">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                closeToast(toast.querySelector('.toast-close'));
+            }, 5000);
+        }
+
+        function closeToast(button) {
+            const toast = button.closest('.toast');
+            if (toast) {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }
+        }
+
+        // Show toasts from Django messages
+        {% if messages %}
+            {% for message in messages %}
+                showToast('{{ message }}', '{% if message.tags == "error" %}error{% elif message.tags == "info" %}info{% else %}success{% endif %}');
+            {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>

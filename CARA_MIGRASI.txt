@@ -1,0 +1,33 @@
+========================================
+CARA MENGATASI ERROR TABEL TIDAK ADA
+========================================
+
+Error yang Anda alami terjadi karena tabel database belum dibuat.
+
+SOLUSI CEPAT:
+-------------
+
+1. Buka terminal/command prompt di folder C:\laragon\www\absen
+
+2. Pastikan virtual environment aktif (lihat ada tulisan (venv) di prompt)
+
+3. Jalankan salah satu perintah berikut:
+
+   PILIHAN 1 (Termudah):
+   python do_migrate.py
+
+   PILIHAN 2:
+   python manage.py makemigrations
+   python manage.py migrate
+
+4. Setelah berhasil, refresh browser di http://127.0.0.1:8000/
+
+CATATAN:
+--------
+- Pastikan MySQL Laragon sudah running
+- Database 'absensi_tamu' sudah dibuat (sudah otomatis dibuat sebelumnya)
+- Jika masih error, pastikan virtual environment aktif dengan menjalankan:
+  venv\Scripts\activate
+
+========================================
+

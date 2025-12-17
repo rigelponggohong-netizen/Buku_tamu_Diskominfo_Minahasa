@@ -1,0 +1,147 @@
+╔══════════════════════════════════════════════════════════════╗
+║     PANDUAN INSTALASI TESSERACT OCR - LANGKAH CEPAT          ║
+╚══════════════════════════════════════════════════════════════╝
+
+❌ ERROR: Tesseract OCR belum terinstall!
+
+═══════════════════════════════════════════════════════════════
+
+📥 LANGKAH 1: DOWNLOAD TESSERACT OCR
+═══════════════════════════════════════════════════════════════
+
+1. Buka browser dan kunjungi:
+   https://github.com/UB-Mannheim/tesseract/wiki
+
+   ATAU langsung download:
+   https://digi.bib.uni-mannheim.de/tesseract/
+
+2. Download installer untuk Windows 64-bit:
+   File biasanya bernama: tesseract-ocr-w64-setup-5.x.x.exe
+
+═══════════════════════════════════════════════════════════════
+
+⚙️ LANGKAH 2: INSTALL TESSERACT
+═══════════════════════════════════════════════════════════════
+
+1. Jalankan installer yang sudah didownload
+
+2. ⚠️ PENTING - Saat instalasi:
+   
+   ✅ Centang "Add Tesseract to PATH" 
+      (Ini SANGAT PENTING agar Python bisa menemukan Tesseract!)
+   
+   ✅ Pilih bahasa Indonesia (ind) 
+      (Untuk akurasi OCR bahasa Indonesia lebih baik)
+   
+   ✅ Pilih lokasi default: 
+      C:\Program Files\Tesseract-OCR
+      (Atau biarkan default)
+
+3. Klik Install dan tunggu selesai
+
+═══════════════════════════════════════════════════════════════
+
+✅ LANGKAH 3: VERIFIKASI INSTALASI
+═══════════════════════════════════════════════════════════════
+
+1. TUTUP CMD/PowerShell ini (penting: harus tutup dan buka baru!)
+
+2. Buka CMD/PowerShell BARU dan test:
+   
+   tesseract --version
+
+   Jika berhasil, akan muncul versi Tesseract (contoh: tesseract 5.3.0)
+
+3. Masuk ke folder project:
+   
+   cd C:\laragon\www\absen
+
+4. Test dengan script verifikasi:
+   
+   python check_tesseract.py
+
+   Seharusnya sekarang muncul: ✅ Tesseract OCR siap digunakan!
+
+═══════════════════════════════════════════════════════════════
+
+🔄 LANGKAH 4: RESTART DJANGO SERVER
+═══════════════════════════════════════════════════════════════
+
+1. Hentikan Django server (jika sedang running) - tekan Ctrl+C
+
+2. Jalankan lagi:
+   
+   python manage.py runserver
+
+3. Test fitur OCR di halaman utama website
+
+═══════════════════════════════════════════════════════════════
+
+🐛 TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+❌ Masih error "tesseract is not installed"?
+
+Solusi 1: Restart CMD/PowerShell
+   - Tutup semua CMD/PowerShell
+   - Buka CMD/PowerShell BARU
+   - Test: tesseract --version
+
+Solusi 2: Set Path Manual di Code
+   1. Edit file: absensi\views.py
+   2. Cari baris sekitar line 34-35
+   3. Uncomment dan sesuaikan:
+      
+      pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+   
+   4. Save file dan restart Django server
+
+Solusi 3: Tambahkan PATH Manual
+   1. Tekan Win + Pause/Break
+   2. Klik "Advanced system settings"
+   3. Klik "Environment Variables"
+   4. Pilih "Path" di System variables → Edit
+   5. Klik "New" → Tambahkan: C:\Program Files\Tesseract-OCR
+   6. Klik OK → Restart CMD/PowerShell
+
+═══════════════════════════════════════════════════════════════
+
+📝 CATATAN PENTING
+═══════════════════════════════════════════════════════════════
+
+✓ Harus restart CMD/PowerShell setelah install (jika PATH ditambahkan)
+✓ Harus restart Django server setelah install Tesseract
+✓ Default path: C:\Program Files\Tesseract-OCR\tesseract.exe
+✓ Jika tidak di PATH, set path manual di views.py
+
+═══════════════════════════════════════════════════════════════
+
+📚 LINK PENTING
+═══════════════════════════════════════════════════════════════
+
+Download Tesseract:
+   https://github.com/UB-Mannheim/tesseract/wiki
+   https://digi.bib.uni-mannheim.de/tesseract/
+
+Dokumentasi Lengkap:
+   Lihat file: INSTALL_TESSERACT.md
+   Atau: INSTALL_TESSERACT_WINDOWS.md
+
+═══════════════════════════════════════════════════════════════
+
+🎯 QUICK CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+□ Download Tesseract installer
+□ Install Tesseract dengan "Add to PATH" dicentang
+□ Pilih bahasa Indonesia (opsional)
+□ Restart CMD/PowerShell
+□ Test: tesseract --version
+□ Test: python check_tesseract.py
+□ Restart Django server
+□ Test fitur OCR di website
+
+═══════════════════════════════════════════════════════════════
+
+Setelah semua checklist selesai, fitur OCR akan berfungsi! ✅
+

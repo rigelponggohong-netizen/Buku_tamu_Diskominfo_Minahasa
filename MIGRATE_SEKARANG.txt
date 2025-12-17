@@ -1,0 +1,38 @@
+═══════════════════════════════════════════════════════════
+   PERBAIKAN CEPAT: Jalankan Migrasi Database
+═══════════════════════════════════════════════════════════
+
+⚠️ ERROR: Table 'absen_db.absensi_absensitamu' doesn't exist
+
+SOLUSI CEPAT:
+-------------
+
+1. HENTIKAN SERVER DJANGO (tekan Ctrl+C di terminal server)
+
+2. Pastikan virtual environment aktif (lihat ada (venv) di prompt)
+
+3. Jalankan salah satu perintah berikut:
+
+   PILIHAN 1 (Paling Mudah):
+   python do_migrate.py
+
+   PILIHAN 2:
+   python manage.py makemigrations
+   python manage.py migrate
+
+4. Setelah berhasil, jalankan kembali server:
+   python manage.py runserver
+
+5. Refresh browser di http://127.0.0.1:8000/
+
+═══════════════════════════════════════════════════════════
+
+Pastikan sebelum migrasi:
+- MySQL Laragon sudah running (hijau)
+- Database 'absen_db' sudah dibuat
+- mysqlclient atau pymysql sudah terinstall
+
+═══════════════════════════════════════════════════════════
+
+
+

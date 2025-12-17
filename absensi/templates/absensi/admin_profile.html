@@ -1,0 +1,337 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Administrator - Buku Tamu</title>
+    <link rel="icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: white;
+            color: #0066cc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-logout:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .breadcrumb {
+            background: white;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .breadcrumb-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #0066cc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #004999;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #0066cc;
+        }
+
+        .form-section h2 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-section p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+
+        .btn-submit {
+            background: #0066cc;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background: #004999;
+            transform: translateY(-2px);
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .messages li {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .messages li.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .messages li.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="{% static 'absensi/images/logo_kominfo.png' %}" alt="Logo Kominfo"
+                        style="height: 60px; width: auto; background: white; padding: 6px; border-radius: 8px;">
+                    <img src="{% static 'absensi/images/logo_minahasa.png' %}" alt="Logo Minahasa"
+                        style="height: 60px; width: auto; background: white; padding: 6px; border-radius: 8px;">
+                </div>
+                <div class="header-text">
+                    <h1>ADMINISTRATOR PANEL</h1>
+                    <p>Sistem Informasi Buku Tamu</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <a href="{% url 'admin_panel' %}" class="btn btn-logout"
+                    style="background: transparent; border: 1px solid white; color: white;">Kembali ke Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-logout">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="{% url 'index' %}">🏠 Beranda</a> /
+            <a href="{% url 'admin_panel' %}">Admin Panel</a> /
+            Profil Administrator
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <h2>Pengaturan Profil Administrator</h2>
+            <p>Ubah username atau password Anda di bawah ini.</p>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {% if message.tags == 'success' %}✅{% else %}❌{% endif %}
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="update_profile">
+                <div class="form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <div style="color: #dc3545; font-size: 12px; margin-top: 5px;">{{ form.username.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                <div class="form-group">
+                    {{ form.new_password1.label_tag }}
+                    {{ form.new_password1 }}
+                    {% if form.new_password1.errors %}
+                    <div style="color: #dc3545; font-size: 12px; margin-top: 5px;">{{ form.new_password1.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.new_password2.label_tag }}
+                    {{ form.new_password2 }}
+                    {% if form.new_password2.errors %}
+                    <div style="color: #dc3545; font-size: 12px; margin-top: 5px;">{{ form.new_password2.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group" style="margin-top: 30px;">
+                    <button type="submit" class="btn btn-submit">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-section" style="margin-top: 30px; border-left-color: #28a745;">
+            <h2>Tambah Administrator Baru</h2>
+            <p>Buat akun administrator baru untuk mengelola sistem.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="add_admin">
+                {% for field in add_admin_form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                    <div style="color: #dc3545; font-size: 12px; margin-top: 5px;">{{ field.errors|first }}</div>
+                    {% endif %}
+                    {% if field.help_text %}
+                    <small style="color: #6c757d; font-size: 12px; margin-top: 5px;">{{ field.help_text|safe }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="form-group" style="margin-top: 30px;">
+                    <button type="submit" class="btn btn-submit" style="background: #28a745;">Tambah Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; {% now "Y" %} Sistem Informasi Buku Tamu. All Rights Reserved.</p>
+    </div>
+
+</body>
+
+</html>

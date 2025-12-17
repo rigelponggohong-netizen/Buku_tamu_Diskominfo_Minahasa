@@ -1,0 +1,833 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Tamu - Sistem Informasi</title>
+    <link rel="icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'absensi/images/logobukutamu_icon.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-login-btn {
+            background: white;
+            color: #0066cc;
+            padding: 10px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-login-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb {
+            background: white;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .breadcrumb-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border-left: 5px solid #0066cc;
+        }
+
+        .page-title h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .form-section h3 {
+            color: #0066cc;
+            margin-bottom: 20px;
+            font-size: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            color: #1565c0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        label .required {
+            color: #d32f2f;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        /* Toast Notification Styles */
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .toast.success::before {
+            background: #28a745;
+        }
+
+        .toast.error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast.error::before {
+            background: #dc3545;
+        }
+
+        .toast.info {
+            border-left: 4px solid #0066cc;
+        }
+
+        .toast.info::before {
+            background: #0066cc;
+        }
+
+        .toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            color: #28a745;
+        }
+
+        .toast.error .toast-icon {
+            color: #dc3545;
+        }
+
+        .toast.info .toast-icon {
+            color: #0066cc;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOutRight 0.3s ease-out forwards;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-content p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .header-text h1 {
+                font-size: 20px;
+            }
+
+            .header-text p {
+                font-size: 13px;
+            }
+
+            .admin-login-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="{% static 'absensi/images/logo_kominfo.png' %}" alt="Logo Kominfo"
+                        style="height: 70px; width: auto; background: white; padding: 8px; border-radius: 8px;">
+                    <img src="{% static 'absensi/images/logo_minahasa.png' %}" alt="Logo Minahasa"
+                        style="height: 70px; width: auto; background: white; padding: 8px; border-radius: 8px;">
+                </div>
+                <div class="header-text">
+                    <h1>BUKU TAMU</h1>
+                    <p>Layanan Buku Tamu Dinas Komunikasi dan Informatika Kabupaten Minahasa</p>
+                </div>
+            </div>
+            <a href="{% url 'login' %}" class="admin-login-btn">
+                Login Admin
+            </a>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="#">Beranda</a> / Absensi Tamu
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-title">
+            <h2>📝 Form Absensi Tamu</h2>
+            <p>Silakan lengkapi formulir berikut untuk mencatat kehadiran Anda</p>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container"
+            style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        </div>
+
+        <div class="form-section">
+            <h3>Data Pengunjung</h3>
+
+            <div class="info-box">
+                <p><strong>Informasi:</strong> Harap mengisi semua kolom yang bertanda bintang (*) dengan lengkap dan
+                    benar. Data yang Anda berikan akan digunakan untuk keperluan administrasi dan keamanan.</p>
+            </div>
+
+            <!-- OCR Buttons Section -->
+            <div class="ocr-section"
+                style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #0066cc;">
+                <h4 style="color: #0066cc; margin-bottom: 15px; font-size: 16px;">Scan Kartu Pegawai/Tanda Pengenal</h4>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Upload gambar kartu pegawai atau ambil
+                    foto menggunakan kamera</p>
+                <div class="button-group" style="margin-top: 0;">
+                    <button type="button" id="btn-ocr-upload" style="background: #28a745;">
+                        Upload Gambar
+                    </button>
+                    <button type="button" id="btn-ocr-camera" style="background: #17a2b8;">
+                        Ambil Foto Kamera
+                    </button>
+                </div>
+                <input type="file" id="ocr-file-input" accept="image/*" style="display: none;">
+                <div id="ocr-preview" style="margin-top: 15px; display: none;">
+                    <img id="ocr-preview-img" src="" alt="Preview"
+                        style="max-width: 300px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">
+                </div>
+                <div id="ocr-status" style="margin-top: 10px; font-size: 14px;"></div>
+            </div>
+
+            <form method="POST" id="absensi-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.nama.id_for_label }}">
+                        {{ form.nama.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.nama }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.jabatan.id_for_label }}">
+                        {{ form.jabatan.label }}
+                    </label>
+                    {{ form.jabatan }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.instansi.id_for_label }}">
+                        {{ form.instansi.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.instansi }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.alamat.id_for_label }}">
+                        {{ form.alamat.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.alamat }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.nomor_telepon.id_for_label }}">
+                        {{ form.nomor_telepon.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.nomor_telepon }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.keperluan.id_for_label }}">
+                        {{ form.keperluan.label }} <span class="required">*</span>
+                    </label>
+                    {{ form.keperluan }}
+                </div>
+
+                <div class="button-group">
+                    <button type="submit">✓ Simpan Data Absensi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Sistem Informasi Buku Tamu. All Rights Reserved.</p>
+            <p>Dikembangkan untuk meningkatkan pelayanan dan keamanan</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification Script -->
+    <script>
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️'
+            };
+
+            const titles = {
+                success: 'Berhasil',
+                error: 'Error',
+                info: 'Informasi'
+            };
+
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.success}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type] || titles.success}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="closeToast(this)">×</button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                closeToast(toast.querySelector('.toast-close'));
+            }, 5000);
+        }
+
+        function closeToast(button) {
+            const toast = button.closest('.toast');
+            if (toast) {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }
+        }
+
+        // Show toasts from Django messages
+        {% if messages %}
+        {% for message in messages %}
+        showToast('{{ message }}', '{% if message.tags == "error" %}error{% elif message.tags == "info" %}info{% else %}success{% endif %}');
+        {% endfor %}
+        {% endif %}
+
+        // OCR Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnOcrUpload = document.getElementById('btn-ocr-upload');
+            const btnOcrCamera = document.getElementById('btn-ocr-camera');
+            const fileInput = document.getElementById('ocr-file-input');
+            const previewDiv = document.getElementById('ocr-preview');
+            const previewImg = document.getElementById('ocr-preview-img');
+            const statusDiv = document.getElementById('ocr-status');
+            const formNama = document.querySelector('input[name="nama"]');
+            const formInstansi = document.querySelector('input[name="instansi"]');
+
+            // Upload button handler
+            btnOcrUpload.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            // File input change handler
+            fileInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    processImage(file);
+                }
+            });
+
+            // Camera button handler
+            btnOcrCamera.addEventListener('click', function () {
+                // Create video element for camera
+                const video = document.createElement('video');
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '0';
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.zIndex = '10000';
+                video.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                video.style.objectFit = 'contain';
+                document.body.appendChild(video);
+
+                // Create overlay with controls
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.bottom = '30px';
+                overlay.style.left = '50%';
+                overlay.style.transform = 'translateX(-50%)';
+                overlay.style.zIndex = '10001';
+                overlay.style.display = 'flex';
+                overlay.style.gap = '15px';
+
+                const captureBtn = document.createElement('button');
+                captureBtn.textContent = '📷 Ambil Foto';
+                captureBtn.style.padding = '15px 30px';
+                captureBtn.style.fontSize = '16px';
+                captureBtn.style.border = 'none';
+                captureBtn.style.borderRadius = '8px';
+                captureBtn.style.background = '#28a745';
+                captureBtn.style.color = 'white';
+                captureBtn.style.cursor = 'pointer';
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.textContent = '✖ Batal';
+                cancelBtn.style.padding = '15px 30px';
+                cancelBtn.style.fontSize = '16px';
+                cancelBtn.style.border = 'none';
+                cancelBtn.style.borderRadius = '8px';
+                cancelBtn.style.background = '#dc3545';
+                cancelBtn.style.color = 'white';
+                cancelBtn.style.cursor = 'pointer';
+
+                overlay.appendChild(captureBtn);
+                overlay.appendChild(cancelBtn);
+                document.body.appendChild(overlay);
+
+                // Access camera
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(function (err) {
+                        showToast('Error mengakses kamera: ' + err.message, 'error');
+                        document.body.removeChild(video);
+                        document.body.removeChild(overlay);
+                    });
+
+                // Capture handler
+                captureBtn.addEventListener('click', function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0);
+
+                    // Stop camera
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                    document.body.removeChild(video);
+                    document.body.removeChild(overlay);
+
+                    // Convert to blob and process
+                    canvas.toBlob(function (blob) {
+                        const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
+                        processImage(file);
+                    }, 'image/jpeg');
+                });
+
+                // Cancel handler
+                cancelBtn.addEventListener('click', function () {
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                    document.body.removeChild(video);
+                    document.body.removeChild(overlay);
+                });
+            });
+
+            // Process image function - Alur: Gambar → OCR → AI → Auto-fill
+            function processImage(file) {
+                // TAHAP 1: Preview gambar
+                statusDiv.innerHTML = '<span style="color: #0066cc;">📷 TAHAP 1: Memproses gambar...</span>';
+                statusDiv.style.display = 'block';
+
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+
+                // TAHAP 2: OCR - Ekstrak semua informasi dari gambar
+                statusDiv.innerHTML = '<span style="color: #0066cc;">Memproses foto...</span>';
+
+                // Create FormData
+                const formData = new FormData();
+                formData.append('image', file);
+
+                // Send to OCR endpoint
+                fetch('{% url "ocr_process" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('[OCR] Response:', data);
+
+                        if (data.success) {
+                            // TAHAP 3: AI Analysis - Gemini AI menganalisis dan memisahkan nama vs instansi
+                            if (data.ai_stage === 'completed' || data.using_ai) {
+                                statusDiv.innerHTML = '<span style="color: #17a2b8;">Foto diproses...</span>';
+
+                                // AI sudah selesai memproses, langsung ke TAHAP 4
+                                setTimeout(() => {
+                                    // TAHAP 4: Auto-fill form dengan hasil AI
+                                    statusDiv.innerHTML = '<span style="color: #ffc107;">Selesai...</span>';
+
+                                    // Auto-fill nama
+                                    if (data.detected_name && formNama) {
+                                        formNama.value = data.detected_name;
+                                        formNama.style.borderColor = '#28a745';
+                                        setTimeout(() => {
+                                            formNama.style.borderColor = '#ddd';
+                                        }, 2000);
+                                    }
+
+                                    // Auto-fill instansi
+                                    if (data.detected_institution && formInstansi) {
+                                        formInstansi.value = data.detected_institution;
+                                        formInstansi.style.borderColor = '#28a745';
+                                        setTimeout(() => {
+                                            formInstansi.style.borderColor = '#ddd';
+                                        }, 2000);
+                                    }
+
+                                    // Final status
+                                    let finalMessage = '<span style="color: #28a745;">✅ Data berhasil diisi otomatis.</span>';
+                                    if (data.using_ai) {
+                                        finalMessage += '<br><small style="color: #6c757d;">✓ Menggunakan Gemini AI</small>';
+                                    } else if (data.warning) {
+                                        finalMessage += '<br><small style="color: #ffc107;">⚠ ' + data.warning + '</small>';
+                                    }
+
+                                    statusDiv.innerHTML = finalMessage;
+                                    showToast('OCR berhasil! Nama dan instansi telah diisi otomatis oleh AI.', 'success');
+
+                                    // Scroll to form
+                                    document.getElementById('absensi-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }, 500);
+                            } else {
+                                // Jika AI gagal, tetap coba auto-fill dengan hasil OCR tradisional
+                                statusDiv.innerHTML = '<span style="color: #ffc107;">⚠️ AI tidak tersedia, menggunakan metode tradisional...</span>';
+
+                                // Auto-fill form (fallback ke metode tradisional)
+                                if (data.detected_name && formNama) {
+                                    formNama.value = data.detected_name;
+                                    formNama.style.borderColor = '#28a745';
+                                    setTimeout(() => {
+                                        formNama.style.borderColor = '#ddd';
+                                    }, 2000);
+                                }
+
+                                if (data.detected_institution && formInstansi) {
+                                    formInstansi.value = data.detected_institution;
+                                    formInstansi.style.borderColor = '#28a745';
+                                    setTimeout(() => {
+                                        formInstansi.style.borderColor = '#ddd';
+                                    }, 2000);
+                                }
+
+                                let finalMessage = '<span style="color: #28a745;">✅ Selesai! Data berhasil diisi otomatis.</span>';
+                                if (data.warning) {
+                                    finalMessage += '<br><small style="color: #ffc107;">⚠ ' + data.warning + '</small>';
+                                }
+
+                                statusDiv.innerHTML = finalMessage;
+                                showToast('OCR berhasil! (menggunakan metode tradisional)', 'success');
+
+                                // Scroll to form
+                                document.getElementById('absensi-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        } else {
+                            statusDiv.innerHTML = '<span style="color: #dc3545;">❌ ' + (data.error || 'Error memproses gambar') + '</span>';
+                            showToast('Error OCR: ' + (data.error || 'Tidak dapat memproses gambar'), 'error');
+                        }
+                    })
+                    .catch(error => {
+                        statusDiv.innerHTML = '<span style="color: #dc3545;">❌ Error: ' + error.message + '</span>';
+                        showToast('Error: ' + error.message, 'error');
+                        console.error('OCR Error:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
